@@ -24,7 +24,7 @@ class JoinSection {
     }
 
     export class SectionCreator{
-        constructor(type){
+       create(type){
          switch(type){
              case 'standard':
                  return new JoinSection(

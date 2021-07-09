@@ -1,4 +1,5 @@
 import {SectionCreator} from './join-us-section.js';
+
   class Renderer{
       constructor(node, position){
           this.node = node;
@@ -12,6 +13,6 @@ import {SectionCreator} from './join-us-section.js';
   
      
   }
-  
-  const sectionRenderer = new Renderer(new SectionCreator('standard'), 'footer');
+  const sectionFactory = new SectionCreator();
+  const sectionRenderer = new Renderer(sectionFactory.create('standard'), 'footer');
   window.addEventListener("load", sectionRenderer.render);
