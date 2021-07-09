@@ -248,9 +248,11 @@ main {
 }
 .app-section__input--subscribe {
   min-width: 110px;
+  width: fit-content;
   height: 35px;
   border-radius: 18px;
   text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 .app-section__input--email {
   width: 400px;
