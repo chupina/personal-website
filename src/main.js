@@ -14,5 +14,6 @@ import {SectionCreator} from './join-us-section.js';
      
   }
   const sectionFactory = new SectionCreator();
-  const sectionRenderer = new Renderer(sectionFactory.create('standard'), 'footer');
+  const standardSection = sectionFactory.create('standard')
+  const sectionRenderer = new Renderer(standardSection, 'footer');
   window.addEventListener("load", sectionRenderer.render);
