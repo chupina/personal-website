@@ -1,4 +1,4 @@
-import {validate} from './email-validator.js';
+import { validate } from "./email-validator.js";
 
 const textPlaceholder = "Sed do eiusmod tempor incididunt <br> ut labore et dolore magna aliqua.";
 
@@ -11,6 +11,7 @@ class Section {
     this.create();
     return this.element;
   }
+
   create() {
     this.element.className = "app-section app-section--image-join";
     this.element.innerHTML = `<h2 class="app-title app-section__title--join">${this.headerContent}</h2>
@@ -19,10 +20,11 @@ class Section {
                                 <input type="email" placeholder="Email" class="app-section__input--email">
                                 <button type="submit" class="app-section__button app-section__input--subscribe">${this.buttonContent}</button>
                             </form>`;
+
     this.element.querySelector("form").addEventListener("submit", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      console.log(e.currentTarget.querySelector("input").value);
+      console.log(e.currentTarget.querySelector("input").value);// eslint-disable-line no-console
       validate(e.currentTarget.querySelector("input").value);
     });
   }
@@ -39,7 +41,7 @@ class AdvancedSection extends Section {
     super(
       "Join our advanced program",
       textPlaceholder,
-      "Subscribe to Advanced Program"
+      "Subscribe to Advanced Program",
     );
   }
 }
@@ -51,6 +53,8 @@ export class SectionCreator {
         return new StandardSection();
       case "advanced":
         return new AdvancedSection();
+      default:
+        return new StandardSection();
     }
   }
 }
