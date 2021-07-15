@@ -1,0 +1,37 @@
+{
+  "name": "javascript-fronted-applied-personal-website",
+  "version": "1.0.0",
+  "description": "## Install",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev": "webpack-dev-server",
+    "build-dev": "webpack serve --open --config webpack.dev.js ",
+    "build-prod": "webpack --config webpack.prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/alenachupina/javascript-fronted-applied-personal-website.git"
+  },
+  "author": "Alena Chupina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/alenachupina/javascript-fronted-applied-personal-website/issues"
+  },
+  "homepage": "https://gitlab.com/alenachupina/javascript-fronted-applied-personal-website#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "css-loader": "^6.0.0",
+    "html-webpack-plugin": "^5.3.2",
+    "style-loader": "^3.1.0",
+    "webpack": "^5.44.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.8.0"
+  }
+}
