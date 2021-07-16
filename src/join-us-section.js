@@ -1,6 +1,18 @@
 import { validate } from "./email-validator.js";
 
-const textPlaceholder = "Sed do eiusmod tempor incididunt <br> ut labore et dolore magna aliqua.";
+const textPlaceholder =
+  "Sed do eiusmod tempor incididunt <br> ut labore et dolore magna aliqua.";
+
+const setInputValue = (inputEl) => {
+  localStorage.setItem("email", inputEl.value);
+};
+const getInputValue = (inputEl, data) => {
+  if (!localStorage.getItem(data)) {
+    inputEl.value = "";
+  } else {
+    inputEl.value = localStorage.getItem(data);
+  }
+};
 
 class Section {
   constructor(headerContent, subheaderContent, buttonContent) {
@@ -12,21 +24,39 @@ class Section {
     return this.element;
   }
 
-  create() {
-    this.element.className = "app-section app-section--image-join";
+  renderContent(state) {
     this.element.innerHTML = `<h2 class="app-title app-section__title--join">${this.headerContent}</h2>
-                            <h3 class="app-subtitle">${this.subheaderContent}</h3>
-                            <form class="app-section_form">
-                                <input type="email" placeholder="Email" class="app-section__input--email">
-                                <button type="submit" class="app-section__button app-section__input--subscribe">${this.buttonContent}</button>
-                            </form>`;
+     <h3 class="app-subtitle">${this.subheaderContent}</h3>
+     <form class="app-section_form">
+         <input type="email" name="email" placeholder="Email" class="app-section__input--email ${state === "true" ? "hidden" : " "}">
+         <button type="submit" class="app-section__button app-section__input--subscribe">${state === "true" ? "unsubscribe" : this.buttonContent}</button>
+     </form>`;
 
+    getInputValue(this.element.querySelector("input"), "email");
     this.element.querySelector("form").addEventListener("submit", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      console.log(e.currentTarget.querySelector("input").value);// eslint-disable-line no-console
-      validate(e.currentTarget.querySelector("input").value);
+      if (localStorage.getItem("subscription") === "true") {
+        localStorage.clear();
+      } else if (localStorage.getItem("email")) {
+        const validationResult = validate(localStorage.getItem("email"));
+        localStorage.setItem("subscription", validationResult);
+        console.log(e.currentTarget.querySelector("input").value); // eslint-disable-line no-console
+      } else {
+        e.currentTarget.querySelector("input").classList.add("danger");
+      }
+      this.renderContent(localStorage.getItem("subscription"));
     });
+    this.element.querySelector("input").addEventListener("input", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      setInputValue(e.target);
+    });
+  }
+
+  create() {
+    this.element.className = "app-section app-section--image-join";
+    this.renderContent(localStorage.getItem("subscription"));
   }
 }
 
@@ -41,7 +71,7 @@ class AdvancedSection extends Section {
     super(
       "Join our advanced program",
       textPlaceholder,
-      "Subscribe to Advanced Program",
+      "Subscribe to Advanced Program"
     );
   }
 }
