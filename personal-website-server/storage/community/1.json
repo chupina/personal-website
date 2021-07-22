@@ -1,0 +1,20 @@
+[
+  {
+    "avatar": "http://localhost:3000/avatars/avatar1.png",
+    "firstName": "Mary",
+    "lastName": "Smith",
+    "position": "Lead Designer at Company Name"
+  },
+  {
+    "avatar": "http://localhost:3000/avatars/avatar2.png",
+    "firstName": "Bill",
+    "lastName": "Filler",
+    "position": "Lead Engineer at Company Name"
+  },
+  {
+    "avatar": "http://localhost:3000/avatars/avatar3.png",
+    "firstName": "Tim",
+    "lastName": "Gates",
+    "position": "CEO at Company Name"
+  }
+]
