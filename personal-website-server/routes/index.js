@@ -23,7 +23,7 @@ router.post('/subscribe', async function (req, res) {
 });
 
 /* GET /unsubscribe */
-router.post('/unsubscribe ', async function (req, res) {
+router.post('/unsubscribe', async function (req, res) {
   try {
     await FileStorage.deleteFile('user.json');
     await FileStorage.writeFile('user-analytics.json', []);
