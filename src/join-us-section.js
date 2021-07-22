@@ -1,18 +1,5 @@
 import { validate } from "./email-validator.js";
-
-const textPlaceholder =
-  "Sed do eiusmod tempor incididunt <br> ut labore et dolore magna aliqua.";
-
-const setValue = (inputEl, key) => {
-  localStorage.setItem(key, inputEl.value);
-};
-const getValue = (inputEl, key) => {
-  if (!localStorage.getItem(key)) {
-    inputEl.value = "";
-  } else {
-    inputEl.value = localStorage.getItem(key);
-  }
-};
+import {setValue, getValue} from "./storage-connect";
 
 class Section {
   constructor(headerContent, subheaderContent, buttonContent) {
@@ -33,7 +20,9 @@ class Section {
      </form>`;
     this.subscribeForm = this.element.querySelector("form");
     this.emailInput = this.element.querySelector(".app-section__input--email");
-    this.submitButton = this.element.querySelector(".app-section__input--subscribe");
+    this.submitButton = this.element.querySelector(
+      ".app-section__input--subscribe",
+    );
   }
 
   updateUI(state) {
@@ -61,19 +50,53 @@ class Section {
     this.renderContent();
     this.checkState();
     getValue(this.emailInput, "email");
+
     this.subscribeForm.addEventListener("submit", (e) => {
       e.preventDefault();
       e.stopPropagation();
       if (localStorage.getItem("subscription") === "true") {
+        fetch("http://localhost:8080/api/unsubscribe", {
+          method: "POST",
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
+          // body: JSON.stringify({"email":" "}),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              localStorage.clear();
+              this.checkState();
+            }});
         localStorage.clear();
+        this.checkState();
       }
       if (localStorage.getItem("email")) {
-        const validationResult = validate(this.emailInput.value);
-        localStorage.setItem("subscription", validationResult);
+        const validationResult = validate(localStorage.getItem("email"));
+        if (validationResult) {
+         this.submitButton.disabled = "true";
+          fetch("http://localhost:8080/api/subscribe", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: localStorage.getItem("email") }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              localStorage.setItem("subscription", data.success);
+            this.submitButton.removeAttribute("disabled");
+             this.checkState();
+            });
+        } else {
+          localStorage.setItem("subscription", false);
+          this.checkState();
+        }
       }
-      this.checkState();
+
       console.log(this.emailInput.value); // eslint-disable-line no-console
     });
+
     this.emailInput.addEventListener("input", (e) => {
       e.stopPropagation();
       e.preventDefault();
@@ -88,7 +111,7 @@ class Section {
 
 class StandardSection extends Section {
   constructor() {
-    super("Join our program", textPlaceholder, "Subscribe");
+    super("Join our program", "Sed do eiusmod tempor incididunt <br> ut labore et dolore magna aliqua.", "Subscribe");
   }
 }
 
@@ -96,7 +119,7 @@ class AdvancedSection extends Section {
   constructor() {
     super(
       "Join our advanced program",
-      textPlaceholder,
+      "Sed do eiusmod tempor incididunt <br> ut labore et dolore magna aliqua.",
       "Subscribe to Advanced Program",
     );
   }
