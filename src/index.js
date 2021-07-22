@@ -6,8 +6,8 @@ import { Renderer } from "./renderer.js";
 const sectionFactory = new SectionCreator();
 const standardSection = sectionFactory.create("standard");
 const communitySection = new CommunitySection();
-const sectionRendererJoin = new Renderer(standardSection, "footer");
-const sectionRendererCommunity = new Renderer(communitySection, ".app-section--image-culture");
+const sectionRendererJoin = new Renderer(standardSection, "beforebegin", "footer");
+const sectionRendererCommunity = new Renderer(communitySection, "beforebegin", ".app-section--image-culture");
 
 window.addEventListener("load", sectionRendererJoin.render);
 window.addEventListener("load", sectionRendererCommunity.render);

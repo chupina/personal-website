@@ -1,11 +1,12 @@
 export class Renderer {
-  constructor(node, position) {
+  constructor(node, position, selector) {
     this.node = node;
     this.position = position;
+    this.selector = selector;
     this.render = () => {
       document
-        .querySelector(this.position)
-        .insertAdjacentElement("beforebegin", this.node);
+        .querySelector(this.selector)
+        .insertAdjacentElement(position, this.node);
     };
     this.remove = () => {
       this.node.remove();
