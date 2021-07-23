@@ -1,3 +1,5 @@
+import {validate} from './email-validator.js';
+
 const textPlaceholder = "Sed do eiusmod tempor incididunt <br> ut labore et dolore magna aliqua.";
 
 class Section {
@@ -21,6 +23,7 @@ class Section {
       e.preventDefault();
       e.stopPropagation();
       console.log(e.currentTarget.querySelector("input").value);
+      validate(e.currentTarget.querySelector("input").value);
     });
   }
 }
