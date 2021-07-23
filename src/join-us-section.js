@@ -46,16 +46,6 @@ class Section {
     this.updateUI(isSubscribed);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  handleErrors(response) {
-    if (!response.ok) {
-      return response.json().then((data) => {
-        throw new Error(data.error);
-      });
-    }
-    return response;
-  }
-
   create() {
     this.element.className = "app-section app-section--image-join";
     this.renderContent();
@@ -72,7 +62,15 @@ class Section {
           {
             email: localStorage.getItem("email"),
           },
-          this.handleErrors,
+          (response) => {
+            this.submitButton.removeAttribute("disabled");
+            if (!response.ok) {
+              return response.json().then((data) => {
+                throw new Error(data.error);
+              });
+            }
+            return response;
+          },
           (data) => {
             if (data.success) {
               localStorage.clear();
@@ -80,8 +78,7 @@ class Section {
             }
           },
         );
-      }
-      if (localStorage.getItem("email")) {
+      } else if (localStorage.getItem("email")) {
         const validationResult = validate(localStorage.getItem("email"));
         if (validationResult) {
           this.submitButton.disabled = "true";
@@ -91,10 +88,17 @@ class Section {
             {
               email: localStorage.getItem("email"),
             },
-            this.handleErrors,
+            (response) => {
+              this.submitButton.removeAttribute("disabled");
+              if (!response.ok) {
+                return response.json().then((data) => {
+                  throw new Error(data.error);
+                });
+              }
+              return response;
+            },
             (data) => {
               localStorage.setItem("subscription", data.success);
-              this.submitButton.removeAttribute("disabled");
               this.checkState();
             },
           );
