@@ -18,9 +18,9 @@ export class Slider {
         const userCard = document.createElement("div");
         userCard.className = "app-section__card--users";
         userCard.innerHTML = `   <img class="user-avatar" src=${user.avatar}>
-                                        <h5>${user.firstName} ${user.lastName}</h5>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor.</p>
-                                         <p>${user.position}</p>`;
+        <p class="user-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor.</p>
+        <h5>${user.firstName} ${user.lastName}</h5>
+        <p class="user-info">${user.position}</p>`;
         this.element.appendChild(userCard);
       });
     });
