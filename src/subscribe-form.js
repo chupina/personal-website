@@ -62,9 +62,7 @@ export class SubscribeForm {
           (response) => {
             this.submitBtn.removeAttribute("disabled");
             if (!response.ok) {
-              return response.json().then((data) => {
-                throw new Error(data.error);
-              });
+              throw new Error(response.statusText);
             }
             return response;
           },

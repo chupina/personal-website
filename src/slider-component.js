@@ -1,8 +1,10 @@
+import { UserCard } from "./user-card-component.js";
+
 export class Slider {
   constructor() {
     this.element = document.createElement("div");
     this.element.className = "app-section__slider--users";
-    this.create();
+    this.createSlides();
     return this.element;
   }
 
@@ -12,16 +14,17 @@ export class Slider {
     return users.json();
   }
 
-  create() {
+  createSlides() {
     this.getUsers().then((users) => {
       users.forEach((user) => {
-        const userCard = document.createElement("div");
-        userCard.className = "app-section__card--users";
-        userCard.innerHTML = `   <img class="user-avatar" src=${user.avatar}>
-        <p class="user-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor.</p>
-        <h5>${user.firstName} ${user.lastName}</h5>
-        <p class="user-info">${user.position}</p>`;
-        this.element.appendChild(userCard);
+        this.element.appendChild(
+          new UserCard(
+            user.avatar,
+            user.firstName,
+            user.lastName,
+            user.position,
+          ),
+        );
       });
     });
   }

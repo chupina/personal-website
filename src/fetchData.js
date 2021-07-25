@@ -1,4 +1,4 @@
-export function fetchData(url, type, payload, errorHandler, successHandler) {
+export function fetchData(url, type = "GET", payload = {}, errorHandler, successHandler) {
   fetch(url, {
     method: type,
     headers: {

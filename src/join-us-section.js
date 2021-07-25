@@ -4,8 +4,7 @@ import { BaseSection } from "./base-section.js";
 class JoinSection {
   constructor(headerContent, subheaderContent, buttonContent, className) {
     this.element = new BaseSection(headerContent, subheaderContent, className);
-    this.buttonContent = buttonContent;
-    this.form = new SubscribeForm(this.buttonContent);
+    this.form = new SubscribeForm(buttonContent);
     this.element.appendChild(this.form);
     return this.element;
   }

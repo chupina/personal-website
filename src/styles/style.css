@@ -218,7 +218,7 @@ main {
   justify-content: space-between;
   background: #FFFFFF;
   text-align: center;
-  padding: 30px 40px;
+  padding: 30px 40px 25px 40px;
   margin-top: 88px;
  }
  .user-info{
@@ -228,7 +228,7 @@ main {
   line-height: 130%;
  text-align: center;
   color: #666666;
- }
+  }
 .app-section__card--users:hover{
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
 }
