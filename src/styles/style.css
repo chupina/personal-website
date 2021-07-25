@@ -241,7 +241,7 @@ main {
   font-size: 4rem;
 }
 
-.app-section--image-join {
+.app-section--join {
   background: linear-gradient(
       to top,
       rgba(5, 17, 18, 0.5),
@@ -377,7 +377,7 @@ main {
   .app-section__button--read-more {
     margin: 24px auto 48px;
   }
-  .app-section--image-join {
+  .app-section--join {
     height: 523px;
   }
   .app-footer {
