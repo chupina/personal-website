@@ -205,8 +205,7 @@ main {
   align-items: center;
   justify-content: center;
    gap: 20px;
-  overflow: hidden;
-}
+ }
 .app-section__card--users{
   box-sizing: border-box;
   width: 315px;
@@ -260,7 +259,7 @@ main {
       rgba(5, 17, 18, 0.5)
     ),
     url(../assets/images/your-join.png) no-repeat center/cover;
-  height: 436px;
+  height: 436px; 
   gap: 25px;
   max-width: 100%;
   color: white;
@@ -296,7 +295,8 @@ main {
 }
 .app-section__input--subscribe:disabled{
   opacity: 0.5;
-  cursor: not-allowed;
+  /* cursor: not-allowed; */
+  
 }
 .app-section__input--email {
   width: 400px;
@@ -381,6 +381,9 @@ main {
     margin: 32px auto;
     font-size: 2rem;
   }
+  .app-section__slider--users div:not(:first-child){
+   display: none;
+   }
   .app-section__article {
     grid-template-columns: 1fr;
     gap: 0 0;
