@@ -1,19 +1,19 @@
 import { validate } from "./email-validator.js";
-import { fetchData } from "./fetchData.js";
+import { UsersAPI } from "./fetchData.js";
 import { Button } from "./button-component.js";
 import { Input } from "./input-component.js";
 
 export class SubscribeForm {
   constructor(buttonText) {
-    this.requestHandler = fetchData;
+    this.requestHandler = UsersAPI;
     this.validationHandler = validate;
-    this.form = document.createElement("form");
     this.input = new Input("email", "Email", "app-section__input--email");
     this.submitBtn = new Button(
       buttonText,
       "submit",
       "app-section__button app-section__input--subscribe",
     );
+    this.form = document.createElement("form");
     this.form.className = "app-section_form";
     this.form.appendChild(this.input);
     this.form.appendChild(this.submitBtn);
@@ -22,10 +22,17 @@ export class SubscribeForm {
     return this.form;
   }
 
-  validationSuccess(isValid) {
-    if (!isValid) {
-      this.input.classList.add("danger");
-    }
+  isFetching(status) {
+    status
+      ? this.submitBtn.setAttribute("disabled", "true")
+      : this.submitBtn.removeAttribute("disabled");
+    // console.log(this.submitBtn.attributes);
+  }
+
+  isValid(status) {
+    status
+      ? this.input.classList.remove("danger")
+      : this.input.classList.add("danger");
   }
 
   updateUI(state) {
@@ -52,55 +59,42 @@ export class SubscribeForm {
       e.preventDefault();
       e.stopPropagation();
       if (localStorage.getItem("subscription") === "true") {
-        this.submitBtn.disabled = "true";
-        fetchData(
-          "http://localhost:8080/api/unsubscribe",
-          "POST",
-          {
-            email: localStorage.getItem("email"),
-          },
-          (response) => {
-            this.submitBtn.removeAttribute("disabled");
-            if (!response.ok) {
-              throw new Error(response.statusText);
-            }
-            return response;
-          },
-          (data) => {
+        this.isFetching(true);
+        this.requestHandler
+          .unsubscribe()
+          .then((data) => {
             if (data.success) {
               localStorage.clear();
               this.checkState();
             }
-          },
-        );
+          })
+          .catch((error) => {
+            // eslint-disable-next-line no-alert
+            alert(error);
+          })
+          .finally(() => {
+            this.isFetching(false);
+          });
       } else if (localStorage.getItem("email")) {
         const validationResult = this.validationHandler(
           localStorage.getItem("email"),
         );
-        this.validationSuccess(validationResult);
+        this.isValid(validationResult);
         if (validationResult) {
-          this.validationSuccess(validationResult);
-          this.submitBtn.disabled = "true";
-          this.requestHandler(
-            "http://localhost:8080/api/subscribe",
-            "POST",
-            {
-              email: localStorage.getItem("email"),
-            },
-            (response) => {
-              this.submitBtn.removeAttribute("disabled");
-              if (!response.ok) {
-                return response.json().then((data) => {
-                  throw new Error(data.error);
-                });
-              }
-              return response;
-            },
-            (data) => {
+          this.isFetching(true);
+          this.requestHandler
+            .subscribe(localStorage.getItem("email"))
+            .then((data) => {
               localStorage.setItem("subscription", data.success);
               this.checkState();
-            },
-          );
+            })
+            .catch((error) => {
+              // eslint-disable-next-line no-alert
+              alert(error);
+            })
+            .finally(() => {
+              this.isFetching(false);
+            });
         } else {
           localStorage.setItem("subscription", false);
         }
