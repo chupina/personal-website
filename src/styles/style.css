@@ -368,3 +368,9 @@ main {
     flex-direction: column;
   }
 }
+.hidden {
+  display: none;
+ }
+ .danger {
+      border: 2px solid salmon;
+ }
