@@ -6,14 +6,12 @@ export const validate = (email) => {
 };
 
 export const validateAsync = (email) => {
-  const value = email.trim();
-  const validationResult = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(gmail.com|yandex.ru|outlook.com)$/.test(value);
+  const validationResult = exports.validate(email);
   return Promise.resolve(validationResult);
 };
 
 export const validateWithThrow = (email) => {
-  const value = email.trim();
-  const validationResult = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(gmail.com|yandex.ru|outlook.com)$/.test(value);
+  const validationResult = exports.validate(email);
   if (validationResult) {
     return true;
   }
@@ -21,9 +19,7 @@ export const validateWithThrow = (email) => {
 };
 
 export const validateWithLog = (email) => {
-  const value = email.trim();
-  const validationResult = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(gmail.com|yandex.ru|outlook.com)$/.test(value);
-  // eslint-disable-next-line no-console
+  const validationResult = exports.validate(email);
   console.log(validationResult);
   return validationResult;
 };
