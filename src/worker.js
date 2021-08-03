@@ -2,7 +2,7 @@ const responseBatch = [];
 self.onmessage = (e) => {
   if (responseBatch.length < 5) {
     responseBatch.push(e.data);
-}
+  }
   if (responseBatch.length === 5) {
     fetch(`http://localhost:8080/api/analytics/user`, {
       method: "POST",
@@ -15,12 +15,15 @@ self.onmessage = (e) => {
         if (!response.ok) {
           throw new Error(response.statusText);
         }
-        responseBatch.length = 0;
         return response;
       })
-      .then((response) => response.json());
-    //   .then((data) => {
-    //     self.postMessage(data);
-    //   });
+      .then((response) => response.json())
+      .then((data) => {
+        self.postMessage(data);
+        responseBatch.length = 0;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 };

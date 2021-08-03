@@ -4,7 +4,11 @@ import { CommunitySection } from "./community-section.js";
 import { Renderer } from "./renderer.js";
 import { WebsiteSection } from "./website-section.js";
 
+// Define a custom web-component
 customElements.define("website-section", WebsiteSection);
+
+// Create a worker
+const worker = new Worker(new URL("./worker.js", import.meta.url));
 
 const sectionFactory = new SectionCreator();
 const standardSection = sectionFactory.create("standard");
@@ -15,10 +19,6 @@ const sectionRendererCommunity = new Renderer(
   ".placeholder-community",
 );
 
-// Create a worker
-
-const worker = new Worker(new URL("./worker.js", import.meta.url));
-
 // Add listeners to the shadow DOM
 
 const customWebSections = document.querySelectorAll("website-section");
@@ -27,7 +27,9 @@ customWebSections.forEach((section) => {
   if (btn) {
     btn.addEventListener("click", (e) => {
       worker.postMessage({
-        [e.target]: e.timeStamp,
+        event: e.type,
+        target: e.currentTarget.tagName,
+        time: e.timeStamp,
       });
     });
   }
@@ -43,7 +45,9 @@ window.addEventListener("load", () => {
   buttons.forEach((button) => {
     button.addEventListener("click", (e) => {
       worker.postMessage({
-        [e.target]: e.timeStamp,
+        event: e.type,
+        target: e.currentTarget.tagName,
+        time: e.timeStamp,
       });
     });
   });
@@ -51,13 +55,14 @@ window.addEventListener("load", () => {
   inputs.forEach((input) => {
     input.addEventListener("click", (e) => {
       worker.postMessage({
-        [e.target]: e.timeStamp,
+        event: e.type,
+        target: e.currentTarget.tagName,
+        time: e.timeStamp,
       });
     });
   });
 });
 
-// worker.onmessage = (e) => {
-// console.log(e.data)
-
-// };
+worker.onmessage = (e) => {
+  console.log(e.data);
+};
