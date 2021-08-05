@@ -1,9 +1,10 @@
+/* eslint-disable eol-last */
 import "./styles/style.css";
 import { SectionCreator } from "./join-us-section.js";
 import { CommunitySection } from "./community-section.js";
 import { Renderer } from "./renderer.js";
 import { WebsiteSection } from "./website-section.js";
-
+import { collectAnalytics, analyticsData } from "./metrics.js";
 // Define a custom web-component
 customElements.define("website-section", WebsiteSection);
 
@@ -16,7 +17,7 @@ const communitySection = new CommunitySection();
 const sectionRendererJoin = new Renderer(standardSection, ".placeholder-join");
 const sectionRendererCommunity = new Renderer(
   communitySection,
-  ".placeholder-community",
+  ".placeholder-community"
 );
 
 // Add listeners to the shadow DOM
@@ -66,3 +67,26 @@ window.addEventListener("load", () => {
 worker.onmessage = (e) => {
   console.log(e.data);
 };
+window.addEventListener('load', ()=> {
+  collectAnalytics("MemoryUsage", performance.memory.usedJSHeapSize);
+});
+const fetchObserver = new PerformanceObserver((list) => {
+  list.getEntries().forEach((entry) => {
+    collectAnalytics("fetchDuration", entry.duration);
+  });
+});
+fetchObserver.observe({ entryTypes: ["measure"] });
+
+const loadObserver = new PerformanceObserver((list) => {
+  list.getEntries().forEach((entry) => {
+    const totalPageLoad = entry.domComplete - entry.fetchStart;
+    collectAnalytics("pageLoadTime", totalPageLoad);
+  });
+});
+loadObserver.observe({ entryTypes: ["navigation"] });
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') {
+    navigator.sendBeacon('http://localhost:8080/api/analytics/performance', JSON.stringify(analyticsData));
+  }
+});
