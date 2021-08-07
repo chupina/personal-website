@@ -18,23 +18,6 @@ const sectionRendererCommunity = new Renderer(
   communitySection,
   ".placeholder-community",
 );
-
-// Add listeners to the shadow DOM
-
-const customWebSections = document.querySelectorAll("website-section");
-customWebSections.forEach((section) => {
-  const btn = section.shadowRoot.querySelector("button");
-  if (btn) {
-    btn.addEventListener("click", (e) => {
-      worker.postMessage({
-        event: e.type,
-        target: e.currentTarget.tagName,
-        time: e.timeStamp,
-      });
-    });
-  }
-});
-
 window.addEventListener("load", sectionRendererJoin.render);
 window.addEventListener("load", sectionRendererCommunity.render);
 
@@ -63,6 +46,18 @@ window.addEventListener("load", () => {
   });
 });
 
-worker.onmessage = (e) => {
-  console.log(e.data);
-};
+// Add listeners to the shadow DOM
+
+const customWebSections = document.querySelectorAll("website-section");
+customWebSections.forEach((section) => {
+  const btn = section.shadowRoot.querySelector("button");
+  if (btn) {
+    btn.addEventListener("click", (e) => {
+      worker.postMessage({
+        event: e.type,
+        target: e.currentTarget.tagName,
+        time: e.timeStamp,
+      });
+    });
+  }
+});
