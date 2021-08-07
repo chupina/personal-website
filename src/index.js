@@ -17,7 +17,7 @@ const communitySection = new CommunitySection();
 const sectionRendererJoin = new Renderer(standardSection, ".placeholder-join");
 const sectionRendererCommunity = new Renderer(
   communitySection,
-  ".placeholder-community"
+  ".placeholder-community",
 );
 
 // Add listeners to the shadow DOM
@@ -64,10 +64,7 @@ window.addEventListener("load", () => {
   });
 });
 
-worker.onmessage = (e) => {
-  console.log(e.data);
-};
-window.addEventListener('load', ()=> {
+window.addEventListener("load", () => {
   collectAnalytics("MemoryUsage", performance.memory.usedJSHeapSize);
 });
 const fetchObserver = new PerformanceObserver((list) => {
@@ -85,8 +82,11 @@ const loadObserver = new PerformanceObserver((list) => {
 });
 loadObserver.observe({ entryTypes: ["navigation"] });
 
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'hidden') {
-    navigator.sendBeacon('http://localhost:8080/api/analytics/performance', JSON.stringify(analyticsData));
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    const blob = new Blob([JSON.stringify(analyticsData)], {
+      type: "application/json",
+    });
+    navigator.sendBeacon("http://localhost:8080/api/analytics/performance", blob);
   }
 });
