@@ -7,7 +7,13 @@ const common = require('./webpack.common.js');
    devtool: 'inline-source-map',
    devServer:{
     contentBase: path.join(__dirname,"dist"),
-    port: 9000,
+    port: 8080,
     hot:true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        pathRewrite: { '^/api': '' },
+      },
+    },
   },
  });
