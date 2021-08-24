@@ -196,7 +196,41 @@ main {
   text-transform: uppercase;
   width: 135px;
 }
-
+.app-section--community{
+  padding: 88px 108px 70px 108px;
+  background-color: #ffffff;
+}
+.app-section__slider--users{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   gap: 20px;
+ }
+.app-section__card--users{
+  box-sizing: border-box;
+  width: 315px;
+  height: 400px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  text-align: center;
+  padding: 30px 40px 25px 40px;
+  margin-top: 88px;
+ }
+ .user-info{
+   max-width: 110px;
+  font-family: Source Sans Pro;
+  font-size: 12px;
+  line-height: 130%;
+ text-align: center;
+  color: #666666;
+  }
+.app-section__card--users:hover{
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+}
 .app-section--image-culture {
   background: linear-gradient(
       to top,
@@ -218,14 +252,14 @@ main {
   font-size: 4rem;
 }
 
-.app-section--image-join {
+.app-section--join {
   background: linear-gradient(
       to top,
       rgba(5, 17, 18, 0.5),
       rgba(5, 17, 18, 0.5)
     ),
     url(../assets/images/your-join.png) no-repeat center/cover;
-  height: 436px;
+  height: 436px; 
   gap: 25px;
   max-width: 100%;
   color: white;
@@ -258,6 +292,11 @@ main {
   line-height: 186%;
   text-align: center;
   letter-spacing: 0.1em;
+}
+.app-section__input--subscribe:disabled{
+  opacity: 0.5;
+  /* cursor: not-allowed; */
+  
 }
 .app-section__input--email {
   width: 400px;
@@ -342,6 +381,9 @@ main {
     margin: 32px auto;
     font-size: 2rem;
   }
+  .app-section__slider--users div:not(:first-child){
+   display: none;
+   }
   .app-section__article {
     grid-template-columns: 1fr;
     gap: 0 0;
@@ -350,7 +392,7 @@ main {
   .app-section__button--read-more {
     margin: 24px auto 48px;
   }
-  .app-section--image-join {
+  .app-section--join {
     height: 523px;
   }
   .app-footer {
