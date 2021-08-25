@@ -1,9 +1,10 @@
+import { perf } from "./metrics.js";
 import { UserCard } from "./user-card-component.js";
-import { UsersAPI } from "./fetchData.js";
+//import { UsersAPI } from "./fetchData.js";
 
 export class Slider {
   constructor() {
-    this.requestHandler = UsersAPI;
+    //this.requestHandler = UsersAPI;
     this.element = document.createElement("div");
     this.element.className = "app-section__slider--users";
     this.createSlides();
@@ -11,18 +12,26 @@ export class Slider {
   }
 
   createSlides() {
-    this.requestHandler
-      .getUsers()
-      .then((users) => {
-        users.forEach((user) => {
-          this.element.appendChild(
-            new UserCard(
-              user.avatar,
-              user.firstName,
-              user.lastName,
-              user.position,
-            ),
+    performance.mark("fetchStartCommunity");
+    fetch(`http://localhost:8080/api/community`)
+      .then((response) => {
+        performance.mark("FetchEndCommunity");
+        response.json().then((users) => {
+          performance.measure(
+            "fetchDuration",
+            "fetchStartCommunity",
+            "FetchEndCommunity",
           );
+          users.forEach((user) => {
+            this.element.appendChild(
+              new UserCard(
+                user.avatar,
+                user.firstName,
+                user.lastName,
+                user.position,
+              )
+            );
+          });
         });
       })
       .catch((error) => {
