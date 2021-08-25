@@ -1,8 +1,10 @@
 const responseBatch = [];
 self.onmessage = (e) => {
-  responseBatch.push(e.data);
-  if (responseBatch.length >= 5) {
-    fetch("http://localhost:8080/api/analytics/user", {
+  if (responseBatch.length < 5) {
+    responseBatch.push(e.data);
+  }
+  if (responseBatch.length === 5) {
+    fetch(`http://localhost:8080/api/analytics/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
